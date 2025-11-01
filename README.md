@@ -24,3 +24,11 @@ Sistema integral de detección de anomalías en métricas de marketing digital q
 5. **Visualización**: Dashboard Power BI
 
 ## 📁 Estructura del Repositorio
+
+FM-Sistema-Alertas-Marketing/
+├── 📄 README.md # Este archivo
+├── 📁 docs/ # Documentación
+├── 📁 src/ # Código fuente
+├── 📁 config/ # Configuraciones
+├── 📁 assets/ # Imágenes/diagramas
+└── 📄 LICENSE # Licencia MIT
