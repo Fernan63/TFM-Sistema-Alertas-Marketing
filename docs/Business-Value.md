@@ -1,4 +1,3 @@
-
 ## 📄 **4. docs/business-value.md**
 
 ```markdown
