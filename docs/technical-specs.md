@@ -1,7 +1,6 @@
 
 ## 📄 **3. docs/technical-specs.md**
 
-```markdown
 # 🔧 Especificaciones Técnicas
 
 ## Algoritmos Implementados
