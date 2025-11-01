@@ -1,6 +1,5 @@
 # 📄 **4. docs/business-value.md**
 
-```markdown
 # 💼 Valor de Negocio
 
 ## Problema de Negocio Resuelto
