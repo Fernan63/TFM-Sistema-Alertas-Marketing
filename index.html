@@ -3,172 +3,429 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1280, height=720, initial-scale=1.0">
-    <title>Defensa TFM - VIU</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>Defensa TFM - VIU Completa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* ESTILO CORPORATIVO VIU */
         :root {
             --viu-orange: #F15A24;
             --viu-blue: #003B5C;
             --bg-color: #FFFFFF;
             --text-main: #333333;
             --text-light: #666666;
+            --border-color: #E0E0E0;
         }
-        body { margin: 0; padding: 0; background: #f0f2f5; font-family: 'Open Sans', sans-serif; display: flex; flex-direction: column; align-items: center; }
-        .slide {
-            width: 1280px; height: 720px; background: white; margin: 20px; position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); page-break-after: always;
-            display: flex; flex-direction: column;
+        
+        body { 
+            margin: 0; 
+            padding: 0; 
+            background: #f0f2f5; 
+            font-family: 'Open Sans', sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
         }
-        .header { height: 15px; background: linear-gradient(90deg, var(--viu-orange) 50%, var(--viu-blue) 50%); width: 100%; }
-        .content { padding: 50px 80px; flex-grow: 1; display: flex; flex-direction: column; }
-        .footer { padding: 15px 80px; border-top: 1px solid #eee; display: flex; justify-content: space-between; color: var(--text-light); font-size: 14px; background: #fafafa; }
-        
-        h1 { font-family: 'Roboto', sans-serif; font-size: 48px; color: var(--viu-blue); margin: 0 0 20px 0; font-weight: 700; }
-        h2 { font-family: 'Roboto', sans-serif; font-size: 36px; color: var(--viu-orange); border-bottom: 2px solid var(--viu-blue); padding-bottom: 15px; margin-bottom: 40px; }
-        h3 { font-size: 24px; color: var(--viu-blue); margin-bottom: 15px; }
-        p, li { font-size: 20px; line-height: 1.5; color: var(--text-main); margin-bottom: 15px; }
-        
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; height: 100%; align-items: start; }
-        .card { background: #f9f9f9; padding: 25px; border-radius: 8px; border-left: 5px solid var(--viu-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .highlight { color: var(--viu-orange); font-weight: bold; }
-        
-        /* Title Slide */
-        .title-slide { text-align: left; justify-content: center; background: url('https://via.placeholder.com/1280x720/ffffff/f0f0f0?text=VIU+Logo+Background') no-repeat right center; background-size: contain; }
-        .title-box { max-width: 800px; }
-        .meta-info { margin-top: 60px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #ddd; padding-top: 30px; }
-        .meta-item strong { display: block; color: var(--viu-blue); font-size: 16px; margin-bottom: 5px; }
-        .meta-item span { color: var(--text-light); font-size: 18px; }
 
-        /* Icons */
-        i { color: var(--viu-orange); margin-right: 10px; }
+        /* CONTENEDOR DE DIAPOSITIVA */
+        .slide {
+            width: 1280px; 
+            height: 720px; 
+            background: white; 
+            margin: 20px; 
+            position: relative; 
+            overflow: hidden; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); 
+            page-break-after: always;
+            display: flex; 
+            flex-direction: column;
+        }
+
+        /* CABECERA Y PIE */
+        .header-bar { 
+            height: 12px; 
+            background: linear-gradient(90deg, var(--viu-orange) 60%, var(--viu-blue) 60%); 
+            width: 100%; 
+        }
+        
+        .footer-bar { 
+            padding: 12px 60px; 
+            border-top: 1px solid #eee; 
+            display: flex; 
+            justify-content: space-between; 
+            color: var(--text-light); 
+            font-size: 12px; 
+            background: #fafafa; 
+            margin-top: auto;
+        }
+
+        .content-wrapper { 
+            padding: 40px 70px; 
+            flex-grow: 1; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        /* TIPOGRAFÍA */
+        h1 { font-family: 'Roboto', sans-serif; font-size: 48px; color: var(--viu-blue); margin: 0 0 15px 0; font-weight: 700; line-height: 1.1; }
+        h2.slide-title { font-family: 'Roboto', sans-serif; font-size: 36px; color: var(--viu-orange); border-bottom: 2px solid var(--viu-blue); padding-bottom: 10px; margin-bottom: 30px; width: 100%; }
+        h3 { font-family: 'Roboto', sans-serif; font-size: 22px; color: var(--viu-blue); margin-bottom: 15px; font-weight: 600; }
+        p, li { font-size: 18px; line-height: 1.5; color: var(--text-main); margin-bottom: 12px; }
+        strong { color: var(--viu-blue); font-weight: 600; }
+
+        /* LAYOUTS */
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; height: 100%; align-items: start; }
+        .three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; }
+        
+        /* ELEMENTOS DE DISEÑO */
+        .card { background: #fff; padding: 20px; border-radius: 6px; border: 1px solid #eee; box-shadow: 0 3px 6px rgba(0,0,0,0.04); margin-bottom: 15px; }
+        .highlight-box { background-color: #FFF3E0; border-left: 5px solid var(--viu-orange); padding: 20px; border-radius: 4px; margin-bottom: 20px; }
+        
+        .code-block { background: #f4f6f8; padding: 15px; border-radius: 6px; font-family: monospace; font-size: 14px; border-left: 4px solid var(--viu-blue); color: #333; }
+        .keyword { color: #d73a49; } .func { color: #6f42c1; }
+
+        /* ICONOS */
+        .icon-big { font-size: 40px; color: var(--viu-orange); margin-bottom: 15px; display: block; }
+        .step-circle { width: 40px; height: 40px; background: var(--viu-blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-right: 15px; flex-shrink: 0; }
+        
     </style>
 </head>
 <body>
 
-    <!-- Slide 1: Portada -->
-    <div class="slide">
-        <div class="header"></div>
-        <div class="content title-slide">
-            <div class="title-box">
-                <p style="color: var(--viu-orange); font-weight: bold; letter-spacing: 2px;">TRABAJO FIN DE MÁSTER</p>
-                <h1>Sistema Automatizado de Detección y Alerta de Anomalías en el Tráfico Digital</h1>
-                <p style="font-size: 24px; color: var(--text-light);">Integración de Databricks, Power BI y Microsoft Teams para la optimización estratégica de marketing.</p>
-                
-                <div class="meta-info">
-                    <div class="meta-item"><strong>Autor</strong><span>Diego Fernando Parra Moreno</span></div>
-                    <div class="meta-item"><strong>Máster</strong><span>Big Data y Data Science</span></div>
-                    <div class="meta-item"><strong>Director</strong><span>José Montoya Belmonte</span></div>
+<!-- 1. PORTADA -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper" style="justify-content: center; background: url('https://via.placeholder.com/400x400/ffffff/f8f8f8?text=') no-repeat right center;">
+        <div style="max-width: 850px;">
+            <div style="display:flex; align-items:center; margin-bottom:40px;">
+                <div style="width:40px; height:40px; background:var(--viu-orange); margin-right:15px;"></div>
+                <span style="font-size:20px; font-weight:700; color:var(--viu-blue);">Universidad Internacional de Valencia</span>
+            </div>
+            
+            <p style="color: var(--viu-orange); font-weight: 700; letter-spacing: 2px; text-transform: uppercase;">TRABAJO FIN DE MÁSTER</p>
+            <h1>Sistema Automatizado de Detección y Alerta de Anomalías en el Tráfico Digital</h1>
+            <p style="font-size: 24px; color: var(--text-light); border-left: 4px solid var(--viu-blue); padding-left: 20px;">Integración de Databricks, Power BI y Microsoft Teams para la optimización estratégica de las operaciones de marketing.</p>
+            
+            <div style="margin-top: 60px; display: grid; grid-template-columns: 1fr 1fr 1fr; font-size: 16px;">
+                <div>
+                    <strong style="display:block; color:var(--text-light); font-size:12px;">AUTOR</strong>
+                    Diego Fernando Parra Moreno
+                </div>
+                <div>
+                    <strong style="display:block; color:var(--text-light); font-size:12px;">MÁSTER</strong>
+                    Big Data y Data Science
+                </div>
+                <div>
+                    <strong style="display:block; color:var(--text-light); font-size:12px;">DIRECTOR</strong>
+                    José Montoya Belmonte
                 </div>
             </div>
         </div>
-        <div class="footer"><span>Defensa TFM</span><span>Curso 2025-2026</span></div>
     </div>
+    <div class="footer-bar"><span>Defensa TFM</span><span>Curso Académico 2025-2026</span></div>
+</div>
 
-    <!-- Slide 2: Contexto -->
-    <div class="slide">
-        <div class="header"></div>
-        <div class="content">
-            <h2>Contexto y Problemática</h2>
-            <div class="two-col">
-                <div>
-                    <h3>El Desafío</h3>
-                    <p>El volumen de datos en marketing digital es exponencial. Gestionar manualmente +70 cuentas es inviable.</p>
-                    <div class="card">
-                        <h3><i class="fas fa-exclamation-triangle"></i> Problema</h3>
-                        <p>La detección manual es <strong>lenta, reactiva y propensa a errores</strong>. Esto genera ceguera operativa ante incidentes críticos.</p>
-                    </div>
+<!-- 2. CONTEXTO Y PROBLEMÁTICA -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Contexto y Problemática</h2>
+        <div class="two-column">
+            <div>
+                <h3>El Desafío del Volumen</h3>
+                <p>El marketing digital genera datos exponenciales. La gestión manual de portafolios extensos (<strong>+70 cuentas</strong>) es insostenible.</p>
+                <div class="highlight-box">
+                    <h3 style="margin-top:0;"><i class="fas fa-exclamation-triangle"></i> Problema Específico</h3>
+                    <p style="margin:0;">La detección manual de anomalías es <strong>lenta, reactiva y no escalable</strong>. Esto provoca una identificación tardía de desviaciones críticas.</p>
                 </div>
-                <div>
-                    <h3>Impacto de Negocio</h3>
-                    <ul>
-                        <li><i class="fas fa-chart-line"></i> <strong>Ineficiencia:</strong> Presupuesto gastado en campañas rotas.</li>
-                        <li><i class="fas fa-money-bill-wave"></i> <strong>Pérdidas:</strong> Menor generación de ingresos por reacción tardía.</li>
-                        <li><i class="fas fa-user-clock"></i> <strong>Desgaste:</strong> Equipos dedicados a monitorear en lugar de analizar.</li>
+            </div>
+            <div>
+                <h3>Impacto en el Negocio</h3>
+                <div class="card" style="border-left: 4px solid var(--viu-blue);">
+                    <i class="fas fa-chart-line icon-big" style="font-size:24px; display:inline; margin-right:10px;"></i>
+                    <strong>Asignación Ineficiente:</strong><br>Presupuesto gastado en campañas rotas o URLs caídas.
+                </div>
+                <div class="card" style="border-left: 4px solid var(--viu-blue);">
+                    <i class="fas fa-money-bill-wave icon-big" style="font-size:24px; display:inline; margin-right:10px;"></i>
+                    <strong>Pérdida de Ingresos:</strong><br>Cada hora sin detección es dinero perdido.
+                </div>
+                <div class="card" style="border-left: 4px solid var(--viu-blue);">
+                    <i class="fas fa-eye-slash icon-big" style="font-size:24px; display:inline; margin-right:10px;"></i>
+                    <strong>Ceguera Operativa:</strong><br>Falta de visibilidad en días críticos.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bar"><span>Contexto</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
+
+<!-- 3. OBJETIVOS -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Objetivos del Proyecto</h2>
+        <div style="background-color: #E3F2FD; padding: 25px; border-radius: 8px; text-align: center; margin-bottom: 40px;">
+            <h3 style="margin:0; font-size:24px;">Objetivo General</h3>
+            <p style="margin: 10px 0 0 0; font-size: 20px;">Desarrollar un sistema <strong>End-to-End automatizado</strong> para la detección proactiva de anomalías, optimizando la capacidad de respuesta.</p>
+        </div>
+        <div class="three-column">
+            <div class="card" style="text-align:center; border-top: 4px solid var(--viu-orange);">
+                <span style="font-size:40px; font-weight:bold; color:var(--viu-orange); display:block; margin-bottom:10px;">01</span>
+                <h3>Automatización</h3>
+                <p>Implementar algoritmos de ML (STL + Isolation Forest) para vigilancia autónoma.</p>
+            </div>
+            <div class="card" style="text-align:center; border-top: 4px solid var(--viu-orange);">
+                <span style="font-size:40px; font-weight:bold; color:var(--viu-orange); display:block; margin-bottom:10px;">02</span>
+                <h3>Escalabilidad</h3>
+                <p>Diseñar un motor en <strong>Databricks</strong> capaz de procesar múltiples fuentes.</p>
+            </div>
+            <div class="card" style="text-align:center; border-top: 4px solid var(--viu-orange);">
+                <span style="font-size:40px; font-weight:bold; color:var(--viu-orange); display:block; margin-bottom:10px;">03</span>
+                <h3>Acción</h3>
+                <p>Alertas inmediatas en <strong>Teams</strong> y diagnóstico en <strong>Power BI</strong>.</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bar"><span>Objetivos</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
+
+<!-- 4. ESTADO DEL ARTE -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Marco Teórico y Selección</h2>
+        <div class="two-column">
+            <div>
+                <h3>Revisión de Literatura</h3>
+                <ul style="padding-left:20px;">
+                    <li><strong>Métodos Estadísticos (ARIMA/SPC):</strong><br>Efectivos para series estables, pero limitados en contextos multivariantes complejos.</li>
+                    <li style="margin-top:20px;"><strong>Deep Learning (LSTM):</strong><br>Alta potencia pero "caja negra", requieren gran volumen de datos y alto coste computacional.</li>
+                </ul>
+            </div>
+            <div>
+                <div class="card" style="background: #FFF8F5; border: 1px solid var(--viu-orange);">
+                    <h3 style="color:var(--viu-orange);">Solución Híbrida Seleccionada</h3>
+                    <p>Se optó por un enfoque que equilibra interpretabilidad y potencia:</p>
+                    <p><strong>1. STL + MAD (Univariante):</strong><br>Descomposición estacional robusta para explicar tendencias claras (Interpretabilidad).</p>
+                    <p><strong>2. Isolation Forest (Multivariante):</strong><br>Aprendizaje no supervisado para detectar anomalías de contexto (ej. Gasto sin conversiones).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bar"><span>Marco Teórico</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
+
+<!-- 5. ARQUITECTURA TECNOLÓGICA -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Arquitectura Tecnológica</h2>
+        <div style="display:flex; align-items:center; justify-content:center; height:100%; gap:30px;">
+            
+            <!-- NODO 1 -->
+            <div style="text-align:center; width:300px;">
+                <div style="padding:30px; border:2px solid #e0e0e0; border-radius:15px; background:white; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
+                    <i class="fas fa-database" style="font-size:50px; color:#FF3621; margin-bottom:20px;"></i>
+                    <h3 style="margin:0;">Databricks</h3>
+                    <p style="font-size:14px; color:var(--text-light);">Ingesta (Spark)<br>Modelado (Python)</p>
+                </div>
+            </div>
+
+            <i class="fas fa-arrow-right" style="font-size:30px; color:var(--viu-blue);"></i>
+
+            <!-- NODO 2 -->
+            <div style="text-align:center; width:300px;">
+                <div style="padding:30px; border:2px solid #e0e0e0; border-radius:15px; background:white; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
+                    <i class="fab fa-microsoft" style="font-size:50px; color:#6264A7; margin-bottom:20px;"></i>
+                    <h3 style="margin:0;">MS Teams</h3>
+                    <p style="font-size:14px; color:var(--text-light);">Notificación Inmediata<br>(Adaptive Cards)</p>
+                </div>
+            </div>
+
+            <i class="fas fa-arrow-right" style="font-size:30px; color:var(--viu-blue);"></i>
+
+            <!-- NODO 3 -->
+            <div style="text-align:center; width:300px;">
+                <div style="padding:30px; border:2px solid #e0e0e0; border-radius:15px; background:white; box-shadow:0 5px 15px rgba(0,0,0,0.05);">
+                    <i class="fas fa-chart-pie" style="font-size:50px; color:#F2C811; margin-bottom:20px;"></i>
+                    <h3 style="margin:0;">Power BI</h3>
+                    <p style="font-size:14px; color:var(--text-light);">Diagnóstico Visual<br>Contexto Histórico</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="footer-bar"><span>Arquitectura</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
+
+<!-- 6. METODOLOGÍA -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Metodología CRISP-DM</h2>
+        <div class="two-column">
+            <div>
+                <div style="display:flex; margin-bottom:20px;">
+                    <div class="step-circle">1</div>
+                    <div><strong>Comprensión del Negocio</strong><p style="margin:0; font-size:16px;">Definición de KPIs críticos y reglas de negocio.</p></div>
+                </div>
+                <div style="display:flex; margin-bottom:20px;">
+                    <div class="step-circle">2</div>
+                    <div><strong>Preparación de Datos</strong><p style="margin:0; font-size:16px;">Creación del "Dominio Normalizado" para unificar fuentes.</p></div>
+                </div>
+                <div style="display:flex; margin-bottom:20px;">
+                    <div class="step-circle">3</div>
+                    <div><strong>Modelado</strong><p style="margin:0; font-size:16px;">Ejecución de algoritmos en ventana de 60 días.</p></div>
+                </div>
+            </div>
+            <div>
+                <div style="display:flex; margin-bottom:20px;">
+                    <div class="step-circle">4</div>
+                    <div><strong>Evaluación</strong><p style="margin:0; font-size:16px;">Validación cualitativa y tuning de hiperparámetros.</p></div>
+                </div>
+                <div style="display:flex; margin-bottom:20px;">
+                    <div class="step-circle">5</div>
+                    <div><strong>Despliegue</strong><p style="margin:0; font-size:16px;">Automatización y conexión con Teams.</p></div>
+                </div>
+                <div class="highlight-box" style="margin-top:30px;">
+                    <p style="margin:0; font-size:16px;">El enfoque iterativo permitió refinar la precisión del sistema basándose en el feedback real.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bar"><span>Metodología</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
+
+<!-- 7. MODELADO -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Detalle del Modelado</h2>
+        <div class="two-column">
+            <div class="card">
+                <h3><i class="fas fa-wave-square"></i> STL + MAD (Univariante)</h3>
+                <p>Descomposición en Tendencia, Estacionalidad y Residuo.</p>
+                <div class="code-block">
+                    <span class="func">seasonal_decompose</span>(serie)<br>
+                    mad = <span class="keyword">median</span>(abs(residuo - mediana))<br>
+                    umbral = mediana + (3.5 * mad)
+                </div>
+                <p style="font-size:14px; color:var(--text-light); margin-top:10px;">Detecta: Picos abruptos y caídas de servicio.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-project-diagram"></i> Isolation Forest (Multivariante)</h3>
+                <p>Algoritmo de aislamiento basado en árboles. Detecta anomalías contextuales.</p>
+                <div class="code-block">
+                    model = <span class="func">IsolationForest</span>(contam=0.01)<br>
+                    data = [inversion, leads, sesiones]<br>
+                    model.<span class="func">fit_predict</span>(data)
+                </div>
+                <p style="font-size:14px; color:var(--text-light); margin-top:10px;">Detecta: Inversión alta sin retorno (URL rota).</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bar"><span>Modelado</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
+
+<!-- 8. IMPLEMENTACIÓN TÉCNICA -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Detalles de Implementación Técnica</h2>
+        <div class="three-column">
+            <div class="card" style="text-align:center;">
+                <i class="fas fa-calendar-alt icon-big"></i>
+                <h3>Ventana Deslizante</h3>
+                <p style="font-size:16px;">Análisis de <strong>60 días</strong> históricos. Evaluación exclusiva del día <strong>t-1</strong> para asegurar integridad de datos.</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <i class="fas fa-code-branch icon-big"></i>
+                <h3>Híbrido Spark/Pandas</h3>
+                <p style="font-size:16px;"><strong>Spark</strong> para movimiento masivo (ETL) y <strong>Pandas</strong> para precisión matemática por dominio.</p>
+            </div>
+            <div class="card" style="text-align:center;">
+                <i class="fas fa-shield-alt icon-big"></i>
+                <h3>Blindaje de Datos</h3>
+                <p style="font-size:16px;">Validación estricta de zonas horarias y detección de "Días Faltantes" como alerta crítica.</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bar"><span>Implementación</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
+
+<!-- 9. RESULTADOS -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Resultados y Validación</h2>
+        <div class="two-column" style="align-items:center;">
+            <div style="text-align:center;">
+                <div style="width:220px; height:220px; background:var(--viu-blue); border-radius:50%; color:white; display:flex; flex-direction:column; justify-content:center; margin:0 auto;">
+                    <span style="font-size:64px; font-weight:700;">85%</span>
+                    <span style="font-size:16px; text-transform:uppercase;">Precisión</span>
+                </div>
+                <p style="margin-top:20px; font-style:italic; color:var(--text-light);">*Validación manual en piloto (n=40)</p>
+            </div>
+            <div>
+                <h3>Impacto Real</h3>
+                <ul style="list-style:none; padding:0;">
+                    <li style="padding:15px; background:white; border-left:4px solid var(--viu-orange); box-shadow:0 2px 5px rgba(0,0,0,0.05); margin-bottom:15px;">
+                        <strong>Operativo:</strong> Transformación de modelo reactivo a proactivo.
+                    </li>
+                    <li style="padding:15px; background:white; border-left:4px solid var(--viu-orange); box-shadow:0 2px 5px rgba(0,0,0,0.05); margin-bottom:15px;">
+                        <strong>Financiero:</strong> Mitigación de pérdidas por campañas fallidas.
+                    </li>
+                    <li style="padding:15px; background:white; border-left:4px solid var(--viu-orange); box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+                        <strong>Caso de Éxito:</strong> Detección de caída de leads en tiempo récord (horas vs días).
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bar"><span>Resultados</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
+
+<!-- 10. CONCLUSIONES -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper">
+        <h2 class="slide-title">Conclusiones y Trabajo Futuro</h2>
+        <div class="two-column">
+            <div>
+                <h3>Conclusiones</h3>
+                <p>1. Se desarrolló un sistema <strong>End-to-End</strong> plenamente operativo.</p>
+                <p>2. La metodología híbrida demostró ser robusta para entornos sin etiquetas.</p>
+                <p>3. La integración con herramientas corporativas facilitó la adopción inmediata.</p>
+            </div>
+            <div>
+                <h3>Trabajo Futuro</h3>
+                <div class="card" style="border-top: 4px solid var(--viu-blue);">
+                    <ul style="margin:0; padding-left:20px;">
+                        <li><strong>Golden Dataset:</strong> Etiquetado formal para métricas rigurosas.</li>
+                        <li><strong>UX Avanzada:</strong> Deep Linking en Power BI.</li>
+                        <li><strong>IA Generativa:</strong> Integración de LLMs para análisis de causa raíz.</li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="footer"><span>Contexto</span><span>Diego Fernando Parra Moreno</span></div>
     </div>
+    <div class="footer-bar"><span>Conclusiones</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
 
-    <!-- Slide 3: Objetivos -->
-    <div class="slide">
-        <div class="header"></div>
-        <div class="content">
-            <h2>Objetivos del Proyecto</h2>
-            <div style="background: #eef6fc; padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 40px;">
-                <h3 style="margin:0; color: var(--viu-blue);">Objetivo General</h3>
-                <p style="margin: 10px 0 0 0;">Desarrollar un sistema <strong>End-to-End automatizado</strong> para la detección proactiva de anomalías, reduciendo drásticamente el tiempo de respuesta.</p>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
-                <div class="card" style="border-left-color: var(--viu-orange);">
-                    <h3>1. Automatización</h3>
-                    <p>Implementar algoritmos de ML (STL + Isolation Forest) para vigilancia autónoma.</p>
-                </div>
-                <div class="card" style="border-left-color: var(--viu-orange);">
-                    <h3>2. Escalabilidad</h3>
-                    <p>Construir un motor en <strong>Databricks</strong> capaz de procesar múltiples fuentes.</p>
-                </div>
-                <div class="card" style="border-left-color: var(--viu-orange);">
-                    <h3>3. Acción</h3>
-                    <p>Alertas inmediatas en <strong>Teams</strong> y diagnóstico visual en <strong>Power BI</strong>.</p>
-                </div>
-            </div>
+<!-- 11. CIERRE -->
+<div class="slide">
+    <div class="header-bar"></div>
+    <div class="content-wrapper" style="justify-content:center; text-align:center; background:none;">
+        <h1 style="font-size:60px; margin-bottom:20px;">Gracias por su atención</h1>
+        <p style="font-size:24px; color:var(--text-light);">Queda abierto el turno de preguntas</p>
+        
+        <div style="margin-top:60px; display:inline-block; padding:20px 40px; background:#f5f5f5; border-radius:50px; border:1px solid #ddd;">
+            <i class="fab fa-github" style="font-size:24px; vertical-align:middle; margin-right:10px;"></i>
+            <span style="font-weight:600; color:var(--viu-blue); vertical-align:middle;">Repositorio disponible en GitHub</span>
         </div>
-        <div class="footer"><span>Objetivos</span><span>Diego Fernando Parra Moreno</span></div>
     </div>
-
-    <!-- Slide 4: Metodología -->
-    <div class="slide">
-        <div class="header"></div>
-        <div class="content">
-            <h2>Metodología Híbrida</h2>
-            <div class="two-col">
-                <div>
-                    <h3>¿Por qué no usar solo Estadística?</h3>
-                    <p>Los métodos clásicos (ARIMA) son excelentes para series simples, pero fallan al detectar relaciones complejas entre variables (Multivariante).</p>
-                    <h3>¿Por qué no Deep Learning?</h3>
-                    <p>Las redes neuronales (LSTM) requieren masivos datos etiquetados y son "cajas negras" difíciles de explicar al negocio.</p>
-                </div>
-                <div class="card" style="background: #fff3e0; border-left-color: var(--viu-orange);">
-                    <h3><i class="fas fa-check-circle"></i> Solución Seleccionada</h3>
-                    <p><strong>1. Univariante (STL + MAD):</strong> Para detectar picos y caídas de tendencia claras (Alta interpretabilidad).</p>
-                    <p><strong>2. Multivariante (Isolation Forest):</strong> Para detectar anomalías de contexto (ej. Gasto alto sin conversiones) sin necesidad de etiquetas.</p>
-                </div>
-            </div>
-        </div>
-        <div class="footer"><span>Metodología</span><span>Diego Fernando Parra Moreno</span></div>
-    </div>
-
-    <!-- Slide 5: Resultados -->
-    <div class="slide">
-        <div class="header"></div>
-        <div class="content">
-            <h2>Resultados y Validación</h2>
-            <div class="two-col" style="align-items: center;">
-                <div style="text-align: center;">
-                    <div style="width: 200px; height: 200px; border-radius: 50%; background: var(--viu-blue); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0 auto;">
-                        <span style="font-size: 60px; font-weight: bold;">85%</span>
-                        <span style="font-size: 14px; text-transform: uppercase;">Precisión</span>
-                    </div>
-                    <p style="margin-top: 20px; font-style: italic;">*Validación manual en piloto (n=40)</p>
-                </div>
-                <div>
-                    <h3>Logros Clave</h3>
-                    <ul class="fa-ul" style="margin-left: 20px;">
-                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Sistema operativo 100% desplegado.</li>
-                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Detección exitosa de incidentes reales (caída de formularios).</li>
-                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Reducción del ruido mediante tuning de hiperparámetros.</li>
-                    </ul>
-                    <div class="card" style="margin-top: 20px;">
-                        <strong>Impacto:</strong> Transformación de un modelo reactivo a uno proactivo.
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="footer"><span>Resultados</span><span>Diego Fernando Parra Moreno</span></div>
-    </div>
+    <div class="footer-bar"><span>Q&A</span><span>Diego Fernando Parra Moreno</span></div>
+</div>
 
 </body>
 </html>
-
