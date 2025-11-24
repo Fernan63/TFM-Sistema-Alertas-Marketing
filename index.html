@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1280, height=720, initial-scale=1.0">
+    <title>Defensa TFM - VIU</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --viu-orange: #F15A24;
+            --viu-blue: #003B5C;
+            --bg-color: #FFFFFF;
+            --text-main: #333333;
+            --text-light: #666666;
+        }
+        body { margin: 0; padding: 0; background: #f0f2f5; font-family: 'Open Sans', sans-serif; display: flex; flex-direction: column; align-items: center; }
+        .slide {
+            width: 1280px; height: 720px; background: white; margin: 20px; position: relative; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); page-break-after: always;
+            display: flex; flex-direction: column;
+        }
+        .header { height: 15px; background: linear-gradient(90deg, var(--viu-orange) 50%, var(--viu-blue) 50%); width: 100%; }
+        .content { padding: 50px 80px; flex-grow: 1; display: flex; flex-direction: column; }
+        .footer { padding: 15px 80px; border-top: 1px solid #eee; display: flex; justify-content: space-between; color: var(--text-light); font-size: 14px; background: #fafafa; }
+        
+        h1 { font-family: 'Roboto', sans-serif; font-size: 48px; color: var(--viu-blue); margin: 0 0 20px 0; font-weight: 700; }
+        h2 { font-family: 'Roboto', sans-serif; font-size: 36px; color: var(--viu-orange); border-bottom: 2px solid var(--viu-blue); padding-bottom: 15px; margin-bottom: 40px; }
+        h3 { font-size: 24px; color: var(--viu-blue); margin-bottom: 15px; }
+        p, li { font-size: 20px; line-height: 1.5; color: var(--text-main); margin-bottom: 15px; }
+        
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; height: 100%; align-items: start; }
+        .card { background: #f9f9f9; padding: 25px; border-radius: 8px; border-left: 5px solid var(--viu-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .highlight { color: var(--viu-orange); font-weight: bold; }
+        
+        /* Title Slide */
+        .title-slide { text-align: left; justify-content: center; background: url('https://via.placeholder.com/1280x720/ffffff/f0f0f0?text=VIU+Logo+Background') no-repeat right center; background-size: contain; }
+        .title-box { max-width: 800px; }
+        .meta-info { margin-top: 60px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #ddd; padding-top: 30px; }
+        .meta-item strong { display: block; color: var(--viu-blue); font-size: 16px; margin-bottom: 5px; }
+        .meta-item span { color: var(--text-light); font-size: 18px; }
+
+        /* Icons */
+        i { color: var(--viu-orange); margin-right: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Slide 1: Portada -->
+    <div class="slide">
+        <div class="header"></div>
+        <div class="content title-slide">
+            <div class="title-box">
+                <p style="color: var(--viu-orange); font-weight: bold; letter-spacing: 2px;">TRABAJO FIN DE MÁSTER</p>
+                <h1>Sistema Automatizado de Detección y Alerta de Anomalías en el Tráfico Digital</h1>
+                <p style="font-size: 24px; color: var(--text-light);">Integración de Databricks, Power BI y Microsoft Teams para la optimización estratégica de marketing.</p>
+                
+                <div class="meta-info">
+                    <div class="meta-item"><strong>Autor</strong><span>Diego Fernando Parra Moreno</span></div>
+                    <div class="meta-item"><strong>Máster</strong><span>Big Data y Data Science</span></div>
+                    <div class="meta-item"><strong>Director</strong><span>José Montoya Belmonte</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer"><span>Defensa TFM</span><span>Curso 2025-2026</span></div>
+    </div>
+
+    <!-- Slide 2: Contexto -->
+    <div class="slide">
+        <div class="header"></div>
+        <div class="content">
+            <h2>Contexto y Problemática</h2>
+            <div class="two-col">
+                <div>
+                    <h3>El Desafío</h3>
+                    <p>El volumen de datos en marketing digital es exponencial. Gestionar manualmente +70 cuentas es inviable.</p>
+                    <div class="card">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Problema</h3>
+                        <p>La detección manual es <strong>lenta, reactiva y propensa a errores</strong>. Esto genera ceguera operativa ante incidentes críticos.</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>Impacto de Negocio</h3>
+                    <ul>
+                        <li><i class="fas fa-chart-line"></i> <strong>Ineficiencia:</strong> Presupuesto gastado en campañas rotas.</li>
+                        <li><i class="fas fa-money-bill-wave"></i> <strong>Pérdidas:</strong> Menor generación de ingresos por reacción tardía.</li>
+                        <li><i class="fas fa-user-clock"></i> <strong>Desgaste:</strong> Equipos dedicados a monitorear en lugar de analizar.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer"><span>Contexto</span><span>Diego Fernando Parra Moreno</span></div>
+    </div>
+
+    <!-- Slide 3: Objetivos -->
+    <div class="slide">
+        <div class="header"></div>
+        <div class="content">
+            <h2>Objetivos del Proyecto</h2>
+            <div style="background: #eef6fc; padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 40px;">
+                <h3 style="margin:0; color: var(--viu-blue);">Objetivo General</h3>
+                <p style="margin: 10px 0 0 0;">Desarrollar un sistema <strong>End-to-End automatizado</strong> para la detección proactiva de anomalías, reduciendo drásticamente el tiempo de respuesta.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;">
+                <div class="card" style="border-left-color: var(--viu-orange);">
+                    <h3>1. Automatización</h3>
+                    <p>Implementar algoritmos de ML (STL + Isolation Forest) para vigilancia autónoma.</p>
+                </div>
+                <div class="card" style="border-left-color: var(--viu-orange);">
+                    <h3>2. Escalabilidad</h3>
+                    <p>Construir un motor en <strong>Databricks</strong> capaz de procesar múltiples fuentes.</p>
+                </div>
+                <div class="card" style="border-left-color: var(--viu-orange);">
+                    <h3>3. Acción</h3>
+                    <p>Alertas inmediatas en <strong>Teams</strong> y diagnóstico visual en <strong>Power BI</strong>.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer"><span>Objetivos</span><span>Diego Fernando Parra Moreno</span></div>
+    </div>
+
+    <!-- Slide 4: Metodología -->
+    <div class="slide">
+        <div class="header"></div>
+        <div class="content">
+            <h2>Metodología Híbrida</h2>
+            <div class="two-col">
+                <div>
+                    <h3>¿Por qué no usar solo Estadística?</h3>
+                    <p>Los métodos clásicos (ARIMA) son excelentes para series simples, pero fallan al detectar relaciones complejas entre variables (Multivariante).</p>
+                    <h3>¿Por qué no Deep Learning?</h3>
+                    <p>Las redes neuronales (LSTM) requieren masivos datos etiquetados y son "cajas negras" difíciles de explicar al negocio.</p>
+                </div>
+                <div class="card" style="background: #fff3e0; border-left-color: var(--viu-orange);">
+                    <h3><i class="fas fa-check-circle"></i> Solución Seleccionada</h3>
+                    <p><strong>1. Univariante (STL + MAD):</strong> Para detectar picos y caídas de tendencia claras (Alta interpretabilidad).</p>
+                    <p><strong>2. Multivariante (Isolation Forest):</strong> Para detectar anomalías de contexto (ej. Gasto alto sin conversiones) sin necesidad de etiquetas.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer"><span>Metodología</span><span>Diego Fernando Parra Moreno</span></div>
+    </div>
+
+    <!-- Slide 5: Resultados -->
+    <div class="slide">
+        <div class="header"></div>
+        <div class="content">
+            <h2>Resultados y Validación</h2>
+            <div class="two-col" style="align-items: center;">
+                <div style="text-align: center;">
+                    <div style="width: 200px; height: 200px; border-radius: 50%; background: var(--viu-blue); color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 0 auto;">
+                        <span style="font-size: 60px; font-weight: bold;">85%</span>
+                        <span style="font-size: 14px; text-transform: uppercase;">Precisión</span>
+                    </div>
+                    <p style="margin-top: 20px; font-style: italic;">*Validación manual en piloto (n=40)</p>
+                </div>
+                <div>
+                    <h3>Logros Clave</h3>
+                    <ul class="fa-ul" style="margin-left: 20px;">
+                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Sistema operativo 100% desplegado.</li>
+                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Detección exitosa de incidentes reales (caída de formularios).</li>
+                        <li><span class="fa-li"><i class="fas fa-check"></i></span>Reducción del ruido mediante tuning de hiperparámetros.</li>
+                    </ul>
+                    <div class="card" style="margin-top: 20px;">
+                        <strong>Impacto:</strong> Transformación de un modelo reactivo a uno proactivo.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer"><span>Resultados</span><span>Diego Fernando Parra Moreno</span></div>
+    </div>
+
+</body>
+</html>
