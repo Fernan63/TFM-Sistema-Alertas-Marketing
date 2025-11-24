@@ -1,11 +1,19 @@
 """
 Módulo principal del sistema de alertas por anomalías.
-Implementa los algoritmos STL+MAD e Isolation Forest.
+Implementa los algoritmos STL+MAD e Isolation Forest utilizando librerías científicas reales.
 """
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import logging
+
+# Importaciones para lógica real de Ciencia de Datos
+try:
+    from statsmodels.tsa.seasonal import seasonal_decompose
+    from sklearn.ensemble import IsolationForest
+    from sklearn.impute import SimpleImputer
+except ImportError as e:
+    logging.error(f"⚠️ Librerías científicas no encontradas: {e}. Instalar con: pip install scikit-learn statsmodels")
 
 class SistemaAlertasMarketing:
     """Sistema automático de detección de anomalías en métricas de marketing."""
@@ -26,10 +34,11 @@ class SistemaAlertasMarketing:
         
     def cargar_datos_ejemplo(self):
         """
-        Carga datos de ejemplo para demostración.
-        En producción, esto se conectaría a las APIs reales.
+        Carga datos de ejemplo para demostración local.
+        NOTA: En producción (Databricks), esto se sustituye por la lectura
+        de la tabla Delta 'Gold' con el dominio normalizado.
         """
-        self.logger.info("📂 Cargando datos de ejemplo...")
+        self.logger.info("📂 Cargando datos de ejemplo (Simulación de Capa Gold)...")
         
         # Generar datos sintéticos para demostración
         fechas = pd.date_range(
@@ -40,6 +49,7 @@ class SistemaAlertasMarketing:
         
         datos = pd.DataFrame({
             'fecha': fechas,
+            # Simular patrón semanal con ruido Poisson
             'sesiones': np.random.poisson(1000, len(fechas)) + 
                        np.sin(np.arange(len(fechas)) * 2 * np.pi / 7) * 200,
             'leads': np.random.poisson(50, len(fechas)) + 
@@ -47,19 +57,23 @@ class SistemaAlertasMarketing:
             'inversion': np.random.normal(800, 100, len(fechas))
         })
         
-        # Introducir algunas anomalías para demostración
-        datos.loc[10, 'sesiones'] = 5000  # Pico artificial
-        datos.loc[25, 'leads'] = 5        # Caída artificial
-        datos.loc[40, 'inversion'] = 2000 # Pico artificial
+        # Introducir anomalías artificiales para validar detección
+        # 1. Pico en Sesiones (e.g. Bot attack o Viralidad)
+        datos.loc[10, 'sesiones'] = 5000  
+        # 2. Caída crítica en Leads (e.g. Fallo en formulario)
+        datos.loc[25, 'leads'] = 5        
+        # 3. Desconexión inversión/retorno (Anomalía multivariante)
+        datos.loc[40, 'inversion'] = 3000 
         
         return datos
     
     def detectar_anomalias_stl_mad(self, serie, nombre_metrica):
         """
-        Detecta anomalías usando el método STL + MAD.
+        Detecta anomalías univariantes usando Descomposición Estacional (STL) + MAD.
+        Utiliza statsmodels para descomponer la serie en Tendencia, Estacionalidad y Residuo.
         
         Args:
-            serie (pd.Series): Serie temporal a analizar
+            serie (pd.Series): Serie temporal a analizar (indexada por fecha)
             nombre_metrica (str): Nombre de la métrica para logging
             
         Returns:
@@ -68,38 +82,51 @@ class SistemaAlertasMarketing:
         try:
             self.logger.info(f"🔍 Aplicando STL+MAD a {nombre_metrica}...")
             
-            # Simulación de STL - en producción usar statsmodels
-            # stl = STL(serie, period=7, robust=True)
-            # result = stl.fit()
-            # residuals = result.resid
+            # Validación mínima de longitud de datos para STL
+            if len(serie) < 14: # Mínimo 2 ciclos semanales
+                self.logger.warning(f"Datos insuficientes para STL en {nombre_metrica}")
+                return []
+
+            # 1. Descomposición Estacional REAL (statsmodels)
+            # period=7 asume estacionalidad semanal típica en marketing
+            # extrapolate_trend='freq' permite calcular residuos en los extremos
+            resultado = seasonal_decompose(serie, model='additive', period=7, extrapolate_trend='freq')
             
-            # Para demostración, simulamos residuos
-            tendencia = serie.rolling(window=7).mean()
-            residuos = serie - tendencia
+            residuos = resultado.resid
             
-            # Calcular MAD (Median Absolute Deviation)
-            mediana = np.median(residuos)
-            mad = np.median(np.abs(residuos - mediana))
+            # 2. Calcular MAD (Median Absolute Deviation) robusto
+            # Factor 1.4826 para consistencia con distribución normal
+            mediana_residuo = np.median(residuos)
+            mad = np.median(np.abs(residuos - mediana_residuo)) * 1.4826
             
-            # Definir umbrales
-            umbral_superior = mediana + self.umbral_mad * mad
-            umbral_inferior = mediana - self.umbral_mad * mad
+            if mad == 0: 
+                mad = 1e-6 # Evitar división por cero en series muy planas
+
+            # 3. Definir umbrales dinámicos basados en k * MAD
+            umbral_superior = mediana_residuo + self.umbral_mad * mad
+            umbral_inferior = mediana_residuo - self.umbral_mad * mad
             
-            # Detectar anomalías
+            # 4. Detectar y estructurar anomalías
             anomalias = []
-            for idx, (fecha, valor, residuo) in enumerate(zip(serie.index, serie.values, residuos)):
+            for fecha, valor, residuo in zip(serie.index, serie.values, residuos):
                 if residuo > umbral_superior or residuo < umbral_inferior:
-                    tipo = "pico" if residuo > umbral_superior else "caida"
-                    magnitud = abs((valor - mediana) / mediana) * 100
+                    tipo = "pico" if residuo > 0 else "caida"
                     
+                    # Calcular magnitud relativa para contexto de negocio
+                    media_serie = np.mean(serie)
+                    magnitud = abs(residuo) / media_serie * 100 if media_serie != 0 else 0
+                    
+                    # Score Z robusto
+                    score = abs(residuo) / mad
+
                     anomalias.append({
                         'fecha': fecha,
                         'valor': valor,
                         'tipo': tipo,
                         'metrica': nombre_metrica,
                         'magnitud_relativa': round(magnitud, 2),
-                        'metodo': 'STL+MAD',
-                        'score_anomalia': abs(residuo) / mad
+                        'metodo': 'STL+MAD (Statsmodels)',
+                        'score_anomalia': round(score, 2)
                     })
             
             self.logger.info(f"✅ STL+MAD detectó {len(anomalias)} anomalías en {nombre_metrica}")
@@ -111,51 +138,70 @@ class SistemaAlertasMarketing:
     
     def detectar_anomalias_isolation_forest(self, datos):
         """
-        Detecta anomalías usando Isolation Forest (simulado).
+        Detecta anomalías multivariantes usando Isolation Forest (Scikit-Learn).
+        Identifica relaciones anómalas entre métricas (ej. alto gasto sin leads).
         
         Args:
-            datos (pd.DataFrame): DataFrame con múltiples métricas
+            datos (pd.DataFrame): DataFrame con múltiples métricas indexado por fecha
             
         Returns:
             list: Lista de anomalías detectadas
         """
         try:
-            self.logger.info("🤖 Aplicando Isolation Forest...")
+            self.logger.info("🤖 Aplicando Isolation Forest (Sklearn)...")
             
-            # En producción se usaría:
-            # from sklearn.ensemble import IsolationForest
-            # from sklearn.preprocessing import StandardScaler
-            
-            # Simulación simplificada para demostración
             metricas = ['sesiones', 'leads', 'inversion']
-            datos_limpios = datos[metricas].dropna()
             
+            # Preprocesamiento: Copia y limpieza
+            datos_limpios = datos[metricas].copy()
+            
+            # Imputación de nulos (Isolation Forest no soporta NaNs nativamente)
+            # Estrategia: Rellenar con 0 asumiendo ausencia de actividad
+            imputer = SimpleImputer(strategy='constant', fill_value=0)
+            datos_array = imputer.fit_transform(datos_limpios)
+            
+            # Validación de volumen mínimo
             if len(datos_limpios) < 10:
+                self.logger.warning("Datos insuficientes para entrenar Isolation Forest")
                 return []
             
-            # Simular scores de anomalía (en producción serían reales)
-            np.random.seed(42)  # Para reproducibilidad
-            scores = np.random.exponential(0.1, len(datos_limpios))
+            # 1. Configuración del Modelo
+            # n_jobs=-1 utiliza todos los cores disponibles (paralelización)
+            iso_forest = IsolationForest(
+                contamination=self.contaminacion_if,
+                n_estimators=100,
+                random_state=42, # Semilla fija para reproducibilidad
+                n_jobs=-1
+            )
             
-            # Introducir algunos scores altos para demostración
-            scores[10] = 0.9  # Anomalía en índice 10
-            scores[25] = 0.8  # Anomalía en índice 25
-            scores[40] = 0.95 # Anomalía en índice 40
+            # 2. Entrenamiento y Predicción
+            iso_forest.fit(datos_array)
             
-            # Identificar anomalías (percentil 99)
-            umbral = np.percentile(scores, 99)
-            indices_anomalias = np.where(scores > umbral)[0]
+            # decision_function: score negativo = anómalo, positivo = normal
+            # Invertimos para que mayor valor signifique mayor anomalía
+            scores_raw = iso_forest.decision_function(datos_array)
+            scores_normalizados = -scores_raw
+            
+            # Umbral automático basado en la contaminación definida
+            # predict devuelve -1 para outliers y 1 para inliers
+            predicciones = iso_forest.predict(datos_array)
+            indices_anomalias = np.where(predicciones == -1)[0]
             
             anomalias = []
             for idx in indices_anomalias:
                 fecha = datos_limpios.index[idx]
+                score = scores_normalizados[idx]
+                
+                # Reportamos valores contextuales para el dashboard
+                valores_contexto = datos_limpios.iloc[idx].to_dict()
+                
                 anomalias.append({
                     'fecha': fecha,
-                    'score_anomalia': round(scores[idx], 4),
+                    'score_anomalia': round(score, 4),
                     'tipo': 'patron_multivariante',
-                    'metricas_afectadas': metricas,
-                    'metodo': 'IsolationForest',
-                    'valores': datos_limpios.iloc[idx].to_dict()
+                    'metricas_afectadas': metricas, # IF es agnóstico a la métrica individual
+                    'metodo': 'IsolationForest (Sklearn)',
+                    'valores': valores_contexto
                 })
             
             self.logger.info(f"✅ Isolation Forest detectó {len(anomalias)} anomalías multivariantes")
@@ -168,17 +214,15 @@ class SistemaAlertasMarketing:
     def enviar_alerta_teams(self, alerta):
         """
         Simula el envío de alertas a Microsoft Teams.
-        
-        Args:
-            alerta (dict): Información de la alerta a enviar
+        En producción usa requests.post() al webhook configurado en parameters.yaml.
         """
         try:
-            # En producción se usaría:
-            # import requests
-            # webhook_url = "tu_webhook_url"
-            # requests.post(webhook_url, json=alerta)
+            # En producción:
+            # response = requests.post(self.webhook_url, json=formatear_alerta(alerta))
+            # if response.status_code != 200: raise Exception(...)
             
-            self.logger.info(f"📤 Alerta Teams: {alerta['tipo']} en {alerta.get('metrica', 'múltiples')}")
+            metrica_info = alerta.get('metrica', 'Multi-variante')
+            self.logger.info(f"📤 [TEAMS MOCK] Enviando alerta: {alerta['tipo']} | Métrica: {metrica_info} | Fecha: {alerta['fecha']}")
             return True
             
         except Exception as e:
@@ -187,40 +231,40 @@ class SistemaAlertasMarketing:
     
     def ejecutar_pipeline_completo(self):
         """
-        Ejecuta el pipeline completo de detección de anomalías.
-        
-        Returns:
-            dict: Resultados del procesamiento
+        Orquestador principal: Carga datos -> Detecta -> Alerta -> Reporta.
+        Este método sería el 'entry point' del Job en Databricks.
         """
-        self.logger.info("🚀 Iniciando pipeline completo...")
+        self.logger.info("🚀 Iniciando pipeline completo de detección...")
         
-        # 1. Cargar datos
+        # 1. Cargar datos (Silver -> Gold)
         datos = self.cargar_datos_ejemplo()
         
-        # 2. Detección STL+MAD por métrica
+        # 2. Detección Univariante (STL+MAD)
         alertas_stl = []
         for metrica in ['sesiones', 'leads', 'inversion']:
             serie = datos.set_index('fecha')[metrica]
             alertas_metrica = self.detectar_anomalias_stl_mad(serie, metrica)
             alertas_stl.extend(alertas_metrica)
         
-        # 3. Detección Isolation Forest
+        # 3. Detección Multivariante (Isolation Forest)
         datos_indexados = datos.set_index('fecha')
         alertas_if = self.detectar_anomalias_isolation_forest(datos_indexados)
         
-        # 4. Combinar y enviar alertas
+        # 4. Consolidación y Envío
         alertas_totales = alertas_stl + alertas_if
         
+        # Filtrar alertas duplicadas o priorizar (lógica de negocio simple)
+        # Aquí enviamos todas para trazabilidad
         for alerta in alertas_totales:
             self.enviar_alerta_teams(alerta)
         
-        # 5. Retornar resultados
+        # 5. Generar métricas de ejecución para logs
         resultados = {
-            'total_dominios': 1,  # En producción sería el número real
+            'total_dominios': 1, 
             'total_alertas': len(alertas_totales),
             'alertas_stl': len(alertas_stl),
             'alertas_if': len(alertas_if),
-            'alertas_faltantes': 0,  # En producción se calcularía
+            'alertas_faltantes': 0, # Implementar check de fechas vs calendario
             'fecha_ejecucion': datetime.now().isoformat()
         }
         
